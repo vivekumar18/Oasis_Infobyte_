@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>To-Do App</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f0f2f5;
+      margin: 0;
+      padding: 20px;
+    }
+    h2 {
+      margin-top: 30px;
+      color: #333;
+    }
+    .container {
+      max-width: 600px;
+      margin: auto;
+      background: #fff;
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    }
+    input, button {
+      padding: 10px;
+      margin: 5px 0;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+    }
+    button {
+      background: #4CAF50;
+      color: white;
+      border: none;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+    button:hover {
+      background: #45a049;
+    }
+    ul {
+      list-style: none;
+      padding: 0;
+    }
+    li {
+      background: #f9f9f9;
+      margin: 8px 0;
+      padding: 12px;
+      border-radius: 8px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .task-info {
+      flex: 1;
+      margin-right: 10px;
+    }
+    .actions button {
+      margin-left: 5px;
+      padding: 6px 10px;
+      font-size: 14px;
+    }
+    .timestamp {
+      display: block;
+      font-size: 12px;
+      color: #777;
+    }
+    .completed {
+      text-decoration: line-through;
+      color: gray;
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <h1>To-Do App</h1>
+  <input type="text" id="taskInput" placeholder="Enter a new task">
+  <button onclick="addTask()">Add Task</button>
+
+  <h2>Pending Tasks</h2>
+  <ul id="pendingList"></ul>
+
+  <h2>Completed Tasks</h2>
+  <ul id="completedList"></ul>
+</div>
+
+<script>
+  let pendingList = document.getElementById("pendingList");
+  let completedList = document.getElementById("completedList");
+
+  function getDateTime() {
+    return new Date().toLocaleString();
+  }
+
+  function addTask() {
+    let taskInput = document.getElementById("taskInput");
+    let taskText = taskInput.value.trim();
+
+    if (taskText === "") {
+      alert("Please enter a task!");
+      return;
+    }
+
+    let li = createTaskElement(taskText, getDateTime(), false);
+    pendingList.appendChild(li);
+
+    taskInput.value = "";
+  }
+
+  function createTaskElement(text, timestamp, isCompleted) {
+    let li = document.createElement("li");
+
+    let taskInfo = document.createElement("div");
+    taskInfo.classList.add("task-info");
+
+    let taskText = document.createElement("span");
+    taskText.textContent = text;
+    if (isCompleted) taskText.classList.add("completed");
+
+    let timeStampSpan = document.createElement("span");
+    timeStampSpan.classList.add("timestamp");
+    timeStampSpan.textContent = (isCompleted ? "Completed: " : "Added: ") + timestamp;
+
+    taskInfo.appendChild(taskText);
+    taskInfo.appendChild(timeStampSpan);
+
+    let actions = document.createElement("div");
+    actions.classList.add("actions");
+
+    if (!isCompleted) {
+      let completeBtn = document.createElement("button");
+      completeBtn.textContent = "✔";
+      completeBtn.onclick = () => completeTask(li, text);
+      actions.appendChild(completeBtn);
+    }
+
+    let editBtn = document.createElement("button");
+    editBtn.textContent = "✎";
+    editBtn.onclick = () => editTask(taskText, timeStampSpan, isCompleted);
+    actions.appendChild(editBtn);
+
+    let deleteBtn = document.createElement("button");
+    deleteBtn.textContent = "🗑";
+    deleteBtn.onclick = () => li.remove();
+    actions.appendChild(deleteBtn);
+
+    li.appendChild(taskInfo);
+    li.appendChild(actions);
+
+    return li;
+  }
+
+  function completeTask(li, text) {
+    li.remove();
+    let completedLi = createTaskElement(text, getDateTime(), true);
+    completedList.appendChild(completedLi);
+  }
+
+  function editTask(taskText, timeStampSpan, isCompleted) {
+    let newTask = prompt("Edit your task:", taskText.textContent);
+    if (newTask !== null && newTask.trim() !== "") {
+      taskText.textContent = newTask.trim();
+      timeStampSpan.textContent = (isCompleted ? "Completed: " : "Updated: ") + getDateTime();
+    }
+  }
+</script>
+
+</body>
+</html>

@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login Authentication System</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f4f4f4;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+    .container {
+      background: white;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0px 4px 10px rgba(0,0,0,0.1);
+      width: 300px;
+      text-align: center;
+    }
+    input {
+      width: 90%;
+      padding: 10px;
+      margin: 10px 0;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+    }
+    button {
+      width: 95%;
+      padding: 10px;
+      margin: 10px 0;
+      border: none;
+      border-radius: 6px;
+      background: #4CAF50;
+      color: white;
+      font-size: 16px;
+      cursor: pointer;
+    }
+    button:hover {
+      background: #45a049;
+    }
+    a {
+      display: block;
+      margin-top: 10px;
+      text-decoration: none;
+      color: #007BFF;
+    }
+  </style>
+</head>
+<body>
+
+<div class="container" id="authContainer">
+  <h2 id="title">Register</h2>
+  <input type="text" id="username" placeholder="Enter Username" required>
+  <input type="password" id="password" placeholder="Enter Password" required>
+  <button onclick="register()">Register</button>
+  <a href="#" onclick="showLogin()">Already have an account? Login</a>
+</div>
+
+<div class="container" id="securedPage" style="display:none;">
+  <h2>Welcome, <span id="userDisplay"></span></h2>
+  <p>You are now logged in!</p>
+  <button onclick="logout()">Logout</button>
+</div>
+
+<script>
+  function register() {
+    let username = document.getElementById("username").value.trim();
+    let password = document.getElementById("password").value.trim();
+
+    if (!username || !password) {
+      alert("Please enter both username and password!");
+      return;
+    }
+
+    if (localStorage.getItem(username)) {
+      alert("User already exists! Please login.");
+    } else {
+      localStorage.setItem(username, password);
+      alert("Registration successful! You can now login.");
+      showLogin();
+    }
+  }
+
+  function showLogin() {
+    document.getElementById("title").innerText = "Login";
+    let btn = document.querySelector("button");
+    btn.innerText = "Login";
+    btn.setAttribute("onclick", "login()");
+    document.querySelector("a").innerText = "Don't have an account? Register";
+    document.querySelector("a").setAttribute("onclick", "showRegister()");
+  }
+
+  function showRegister() {
+    document.getElementById("title").innerText = "Register";
+    let btn = document.querySelector("button");
+    btn.innerText = "Register";
+    btn.setAttribute("onclick", "register()");
+    document.querySelector("a").innerText = "Already have an account? Login";
+    document.querySelector("a").setAttribute("onclick", "showLogin()");
+  }
+
+  function login() {
+    let username = document.getElementById("username").value.trim();
+    let password = document.getElementById("password").value.trim();
+
+    let storedPassword = localStorage.getItem(username);
+
+    if (storedPassword && storedPassword === password) {
+      sessionStorage.setItem("loggedInUser", username);
+      showSecuredPage(username);
+    } else {
+      alert("Invalid credentials. Try again!");
+    }
+  }
+
+  function showSecuredPage(username) {
+    document.getElementById("authContainer").style.display = "none";
+    document.getElementById("securedPage").style.display = "block";
+    document.getElementById("userDisplay").innerText = username;
+  }
+
+  function logout() {
+    sessionStorage.removeItem("loggedInUser");
+    document.getElementById("securedPage").style.display = "none";
+    document.getElementById("authContainer").style.display = "block";
+    showLogin();
+  }
+  window.onload = () => {
+    let loggedInUser = sessionStorage.getItem("loggedInUser");
+    if (loggedInUser) {
+      showSecuredPage(loggedInUser);
+    }
+  }
+</script>
+</body>
+</html>

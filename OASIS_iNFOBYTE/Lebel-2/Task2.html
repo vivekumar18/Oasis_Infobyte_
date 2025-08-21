@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prashant Kishor</title>
+    <style>
+        /* Modern CSS Reset */
+        *, *::before, *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        /* Base Styles */
+        :root {
+            --primary: #2c3e50;
+            --secondary: #e74c3c;
+            --light: #ecf0f1;
+            --dark: #1a252f;
+            --accent: #3498db;
+            font-size: 16px;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: var(--dark);
+            background-color: var(--light);
+            background-image: linear-gradient(135deg, var(--light) 0%, #dfe6e9 100%);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        /* Header Styles */
+        header {
+            background-color: var(--primary);
+            color: white;
+            padding: 2rem 0;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            margin-bottom: 3rem;
+        }
+
+        header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(
+                to right,
+                rgba(0,0,0,0.2) 0%,
+                rgba(0,0,0,0.05) 50%,
+                rgba(0,0,0,0.2) 100%
+            );
+            z-index: 1;
+        }
+
+        .header-content {
+            position: relative;
+            z-index: 2;
+        }
+
+        h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+            animation: fadeIn 1s ease-out;
+        }
+
+        .subtitle {
+            font-size: 1.5rem;
+            font-weight: 300;
+            opacity: 0.9;
+            animation: fadeIn 1.5s ease-out;
+        }
+
+        /* Main Content */
+        .hero {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            align-items: center;
+            margin-bottom: 4rem;
+        }
+
+        .hero-image {
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            background-color: var(--secondary);
+            padding: 0.5rem;
+            animation: slideInLeft 1s ease-out;
+        }
+
+        .hero-image img {
+            width: 100%;
+            height: auto;
+            display: block;
+            border-radius: 5px;
+            transition: transform 0.3s ease;
+        }
+
+        .hero-image:hover img {
+            transform: scale(1.02);
+        }
+
+        .intro {
+            animation: slideInRight 1s ease-out;
+        }
+
+        .intro h2 {
+            font-size: 2rem;
+            color: var(--secondary);
+            margin-bottom: 1.5rem;
+            position: relative;
+        }
+
+        .intro h2::after {
+            content: '';
+            position: absolute;
+            bottom: -8px;
+            left: 0;
+            width: 60px;
+            height: 3px;
+            background-color: var(--accent);
+        }
+
+        .intro p {
+            margin-bottom: 1.5rem;
+        }
+
+        .highlight {
+            background-color: var(--accent);
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            font-weight: bold;
+        }
+
+        .quote-block {
+            background-color: white;
+            border-left: 5px solid var(--secondary);
+            padding: 2rem;
+            margin: 3rem 0;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            animation: fadeIn 2s ease-out;
+        }
+
+        .quote {
+            font-size: 1.25rem;
+            font-style: italic;
+            margin-bottom: 1rem;
+            color: var(--primary);
+        }
+
+        .attribution {
+            text-align: right;
+            font-weight: bold;
+            color: var(--secondary);
+        }
+
+        /* Timeline Section */
+        .timeline-heading {
+            text-align: center;
+            margin: 4rem 0 2rem;
+            color: var(--primary);
+        }
+
+        .timeline-heading h2 {
+            font-size: 2.5rem;
+            position: relative;
+            display: inline-block;
+            margin-bottom: 1.5rem;
+        }
+
+        .timeline-heading h2::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 4px;
+            background-color: var(--accent);
+        }
+
+        .timeline {
+            position: relative;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 2rem 0;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 50%;
+            width: 2px;
+            height: 100%;
+            background-color: var(--accent);
+            transform: translateX(-50%);
+        }
+
+        .timeline-item {
+            padding: 0 2rem;
+            margin-bottom: 3rem;
+            position: relative;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+
+        .timeline-item.visible {
+            opacity: 1;
+        }
+
+        .timeline-year {
+            position: absolute;
+            top: 0;
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background-color: var(--secondary);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 1.2rem;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 1;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        .timeline-content {
+            background-color: white;
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            margin-top: 50px;
+        }
+
+        .timeline-content h3 {
+            color: var(--secondary);
+            margin-bottom: 1rem;
+        }
+
+        /* Footer */
+        footer {
+            background-color: var(--primary);
+            color: white;
+            text-align: center;
+            padding: 2rem 0;
+            margin-top: 4rem;
+            position: relative;
+        }
+
+        .footer-content {
+            position: relative;
+            z-index: 2;
+        }
+
+        footer p {
+            margin-bottom: 1rem;
+            opacity: 0.8;
+        }
+
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .social-links a {
+            color: white;
+            font-size: 1.5rem;
+            transition: color 0.3s ease;
+        }
+
+        .social-links a:hover {
+            color: var(--accent);
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes slideInLeft {
+            from { 
+                opacity: 0;
+                transform: translateX(-50px);
+            }
+            to { 
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes slideInRight {
+            from { 
+                opacity: 0;
+                transform: translateX(50px);
+            }
+            to { 
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero {
+                grid-template-columns: 1fr;
+            }
+
+            .timeline::before {
+                left: 30px;
+            }
+
+            .timeline-item {
+                padding-left: 70px;
+                padding-right: 1rem;
+            }
+
+            .timeline-year {
+                left: 30px;
+                transform: none;
+            }
+        }
+
+        @media (max-width: 480px) {
+            :root {
+                font-size: 14px;
+            }
+
+            h1 {
+                font-size: 2.5rem;
+            }
+
+            .quote {
+                font-size: 1.1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <h1 id="personName">Prashant Kishor</h1>
+            <p class="subtitle">The Master Strategist of Indian Politics</p>
+        </div>
+    </header>
+
+    <main class="container">
+        <section class="hero">
+            <div class="hero-image">
+                <img src="https://ichef.bbci.co.uk/news/1024/cpsprodpb/E20F/production/_119517875_gettyimages-1204817695-594x594.jpg.webp" alt="Prashant Kishor in a formal suit speaking at a press conference">
+            </div>
+            <div class="intro">
+                <h2>The Political Game-Changer</h2>
+                <p>Prashant Kishor is an Indian <span class="highlight">political strategist</span>, founder of the Indian Political Action Committee (I-PAC). He has worked with several prominent political leaders and parties across India, helping shape election-winning campaigns.</p>
+                <p>Known for his <span class="highlight">data-driven approach</span> to politics, Kishor revolutionized election campaigning in India by introducing professional management techniques, detailed voter analytics, and strategic communication methods.</p>
+                <p>Despite being a <span class="highlight">non-political background</span> (former public health expert with UN), he became one of the most sought-after strategists in Indian politics, working across party lines.</p>
+            </div>
+        </section>
+
+        <section class="quote-block">
+            <blockquote class="quote">
+                "In politics, perception is the only reality. What people believe to be true matters more than what is actually true."
+            </blockquote>
+            <p class="attribution">— Prashant Kishor</p>
+        </section>
+
+        <section class="timeline-section">
+            <div class="timeline-heading">
+                <h2>His Remarkable Journey</h2>
+                <p>A timeline of Prashant Kishor's career milestones</p>
+            </div>
+            <div class="timeline">
+                <div class="timeline-item">
+                    <div class="timeline-year">1977</div>
+                    <div class="timeline-content">
+                        <h3>Birth</h3>
+                        <p>Born in Buxar, Bihar to a middle-class Kayastha family</p>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-year">2012</div>
+                    <div class="timeline-content">
+                        <h3>First Major Campaign</h3>
+                        <p>Designed Narendra Modi's successful Gujarat election campaign and later the 2014 Lok Sabha campaign</p>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-year">2015</div>
+                    <div class="timeline-content">
+                        <h3>I-PAC Formation</h3>
+                        <p>Founded Indian Political Action Committee (I-PAC), India's first dedicated political consultancy</p>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-year">2015</div>
+                    <div class="timeline-content">
+                        <h3>Nitish Kumar's Victory</h3>
+                        <p>Masterminded Nitish Kumar's landslide victory in Bihar elections</p>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-year">2017</div>
+                    <div class="timeline-content">
+                        <h3>Punjab Campaign</h3>
+                        <p>Strategized Captain Amarinder Singh's Congress victory in Punjab</p>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-year">2021</div>
+                    <div class="timeline-content">
+                        <h3>DMK's Tamil Nadu Win</h3>
+                        <p>Helped DMK return to power in Tamil Nadu after 10 years</p>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-year">2022</div>
+                    <div class="timeline-content">
+                        <h3>Political Foray</h3>
+                        <p>Launched "Jan Suraaj" campaign in Bihar, signaling direct political participation</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="footer-content">
+            <p>Created with admiration for political innovators</p>
+            <p>Learn more about Prashant Kishor's work</p>
+            <div class="social-links">
+                <a href="#"><i class="fab fa-wikipedia-w"></i></a>
+                <a href="#"><i class="fab fa-twitter"></i></a>
+                <a href="#"><i class="fas fa-globe"></i></a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Simple JavaScript for animations and interactivity
+        document.addEventListener('DOMContentLoaded', function() {
+            // Animate timeline items when scrolled into view
+            const timelineItems = document.querySelectorAll('.timeline-item');
+            
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                    }
+                });
+            }, {
+                threshold: 0.1
+            });
+
+            timelineItems.forEach(item => {
+                observer.observe(item);
+            });
+
+            // Change header title color periodically
+            const colors = ['#e74c3c', '#3498db', '#e67e22', '#9b59b6', '#2ecc71'];
+            const personName = document.getElementById('personName');
+            let currentColor = 0;
+
+            setInterval(() => {
+                currentColor = (currentColor + 1) % colors.length;
+                personName.style.color = colors[currentColor];
+            }, 3000);
+        });
+
+        // Add Font Awesome icons (loading dynamically)
+        const faScript = document.createElement('script');
+        faScript.src = 'https://kit.fontawesome.com/a076d05399.js';
+        faScript.crossOrigin = 'anonymous';
+        document.head.appendChild(faScript);
+    </script>
+</body>
+</html>
